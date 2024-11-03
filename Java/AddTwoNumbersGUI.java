@@ -46,7 +46,7 @@ public class AddTwoNumbersGUI {
 	num2Field.addActionListener(new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			addButton.doClick();
+			addButton.doClick(); // Simulate button click
 		}
 	});
 	

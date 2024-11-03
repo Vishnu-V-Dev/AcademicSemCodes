@@ -16,7 +16,7 @@ import java.util.Scanner;
 		 int n=s.nextInt();
 		 
 		 System.out.println("Enter the elements of the first matrix: ");
-		 for(i=0;i<n;i++) {
+		 for(i=0;i<m;i++) {
 			 for(j=0;j<n;j++) {
 				 a[i][j]=s.nextInt();
 			 }
@@ -42,7 +42,7 @@ import java.util.Scanner;
 			 for(j=0;j<q;j++) {
 				 sum=0;
 				 for(k=0;k<n;k++) {
-					 sum =sum+(a[i][j]+b[k][j]);
+					 sum =sum+(a[i][j]*b[k][j]);
 				 }
 				 c[i][j]=sum;
 			 }

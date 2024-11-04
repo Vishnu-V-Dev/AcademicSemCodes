@@ -31,7 +31,7 @@ import java.util.Scanner;
 			 System.out.println("Multiplication not possible.");
 		 } else {
 		 
-		 System.out.println("Enter the elements of the first matrix: ");
+		 System.out.println("Enter the elements of the second matrix: ");
 		 for(i=0;i<p;i++) {
 			 for(j=0;j<q;j++) {
 				 b[i][j]=s.nextInt();

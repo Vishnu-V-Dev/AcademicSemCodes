@@ -4,10 +4,10 @@ import java.awt.event.*;
 public class BasicNumCalc {
     public static void main(String[] args) {
         // Create the frame
-        JFrame frame = new JFrame("Number Calculator");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
-        frame.setLayout(null);
+        JFrame fr = new JFrame("Number Calculator");
+        fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fr.setSize(300, 200);
+        fr.setLayout(null);
 
         // Create text fields and labels
         JTextField inputF = new JTextField();
@@ -49,21 +49,21 @@ public class BasicNumCalc {
                     nextF.setText(String.valueOf(nextNumber));
                 } catch (NumberFormatException ex) {
                     // Show error message if input is not a valid number
-                    JOptionPane.showMessageDialog(frame, "Please enter a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(fr, "Please enter a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
         
         // Add components to the frame
-        frame.add(inputF);
-        frame.add(prevF);
-        frame.add(nextF);
-        frame.add(inputL);
-        frame.add(PrevL);
-        frame.add(NextL);
-        frame.add(CalcBtn);
+        fr.add(inputF);
+        fr.add(prevF);
+        fr.add(nextF);
+        fr.add(inputL);
+        fr.add(PrevL);
+        fr.add(NextL);
+        fr.add(CalcBtn);
 
         // Make the frame visible
-        frame.setVisible(true);
+        fr.setVisible(true);
     }
 }

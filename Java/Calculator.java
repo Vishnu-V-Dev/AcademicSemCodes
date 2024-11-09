@@ -41,7 +41,7 @@ public class Calculator {
 		clear=new JButton("Clear");
 		dot=new JButton(".");
 		
-		b7.setBounds(90, 100, 50, 40);
+	b7.setBounds(90, 100, 50, 40);
         b8.setBounds(180, 100, 50, 40);
         b9.setBounds(270, 100, 50, 40);
         bdiv.setBounds(360, 100, 50, 40);

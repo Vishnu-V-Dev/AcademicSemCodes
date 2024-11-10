@@ -42,7 +42,7 @@ import java.util.Scanner;
 			 for(j=0;j<q;j++) {
 				 sum=0;
 				 for(k=0;k<n;k++) {
-					 sum =sum+(a[i][j]*b[k][j]);
+					 sum =sum+(a[i][k]*b[k][j]);
 				 }
 				 c[i][j]=sum;
 			 }

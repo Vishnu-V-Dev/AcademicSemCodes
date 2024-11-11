@@ -1,0 +1,22 @@
+Algorithm
+1. Start
+2. Create a Scanner Object
+o Initialize a Scanner object to read input from the user.
+3. Prompt User for a String
+o Ask the user to input a string.
+o Read the entire string using nextLine() and store it in a variable s.
+4. Get the Length of the String
+o Calculate the length of the string s using s.length() and store it in variable n.
+5. Prompt User for Character to Find Frequency
+o Ask the user to input a character whose frequency is to be found.
+o Read the first character of the string entered by the user using nextLine().charAt(0) and store it in a variable c.
+6. Initialize Count Variable
+o Initialize an integer variable count to 0, which will keep track of how many times the character c appears in the string.
+7. Iterate Through the String
+o Use a for loop to iterate over the string from index 0 to n-1:
+* For each character in the string, compare it with the character c.
+* If the characters match, increment the count by 1.
+8. Display the Frequency
+o After the loop finishes, print the value of count, which represents the frequency of the character c in the string.
+9. End
+

@@ -2,117 +2,72 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#define s 100
 
-char stack[s];
-int top=-1;
-
-void push(char item) {
-	if(top>=s-1) {
-		printf("\nStack Overflow.");
-	}
-	else {
-		top=top+1;
-		stack[top]=item;
-	}
+// Function to return precedence of operators
+int prec(char c) {
+    
+    if (c == '^')
+        return 3;
+    else if (c == '/' || c == '*')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return -1;
 }
 
-char pop() {
-	char item;
-	if(top<0) {
-		printf("Stack Underflow:Invalid infix expression");
-		getchar();
-		exit(1) ;
-	}
-	else {
-		item=stack[top];
-		top=top-1;
-		return(item);
-	}
-}
-int io(char sy) { //is operator
-	if(sy=='^'||sy=='*'||sy=='/'||sy=='+'||sy=='-') {
-		return 1;
-	}
-	else {
-		return 0;
-	}
+// Function to perform infix to postfix conversion
+void infixToPostfix(char* exp) {
+    int len = strlen(exp);
+    char result[len + 1];
+    char stack[len];
+    int j = 0;
+    int top = -1;
+
+    for (int i = 0; i < len; i++) {
+        char c = exp[i];
+
+        // If the scanned character is 
+        // an operand, add it to the output string.
+        if (isalnum(c))
+            result[j++] = c;
+
+        // If the scanned character is
+        // an ‘(‘, push it to the stack.
+        else if (c == '(')
+            stack[++top] = '(';
+
+        // If the scanned character is an ‘)’,
+        // pop and add to the output string from the stack 
+        // until an ‘(‘ is encountered.
+        else if (c == ')') {
+            while (top != -1 && stack[top] != '(') {
+                result[j++] = stack[top--];
+            }
+            top--; 
+        }
+
+        // If an operator is scanned
+        else {
+            while (top != -1 && (prec(c) < prec(stack[top]) ||
+                                 prec(c) == prec(stack[top]))) {
+                result[j++] = stack[top--];
+            }
+            stack[++top] = c;
+        }
+    }
+
+    // Pop all the remaining elements from the stack
+    while (top != -1) {
+        result[j++] = stack[top--];
+    }
+
+    result[j] = '\0';
+    printf("%s\n", result);
 }
 
-int p(char sy) { //precedence
-	if(sy=='^') {
-		return(3);
-	}
-	else if(sy=='*'||sy=='/') {
-		return(2);
-	}
-	else if(sy=='+'||sy=='-') {
-		return(1);
-	}
-	else {
-		return(0);
-	}
-}
-
-void pf(char ie[], char pe[]) { //InfixToPostfix
-	int i,j;
-	char item;
-	char x;
-	
-	push('(');
-	strcat(ie,")");
-	
-	i=0;
-	j=0;
-	item=ie[i];
-	
-	while(item != '\0') {
-		if(item=='(') {
-			push(item);
-		}
-		else if(isdigit(item)||isalpha(item)) {
-			pe[j]=item;
-			j++;
-		}
-		else if(io(item)==1) {
-			x=pop();
-			while(io(x)==1 && p(item)) {
-				pe[j]=x;
-				j++;
-				x=pop();
-			}
-			push(x);
-			push(item);
-		}
-		else if(item==')') {
-			x=pop();
-			while(x != '(') {
-				pe[j]=x;
-				j++;
-				x=pop();
-			}
-		}
-		else {
-			printf("\nInvalid infix Expression.\n");
-			getchar();
-			exit(1);
-		}
-		i++;
-		item=ie[i];
-	}
-	if(top>0) {
-		printf("\nInvalid infix Expression.\n");
-		getchar();
-		exit(1);
-	}
-	pe[j]='\0';
-}
 int main() {
-	char infix[s],postfix[s];
-	printf("\nEnter Infix expression: ");
-	gets(infix);
-	pf(infix,postfix);
-	printf("Postfix Expression: ");
-	puts(postfix);
-	return 0;
+    char exp[] = "a+b*(c+d)";
+    infixToPostfix(exp);
+    return 0;
 }

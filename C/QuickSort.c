@@ -4,10 +4,10 @@ void quicksort(int a[], int L, int R) {
 		int pivot=L,i=L+1,j=R,swap;
 		
 		while(i<=j) {
-			while(a[i]<=R && a[i]<=a[pivot]) {
+			while(i<=R && a[i]<=a[pivot]) {
 				i++;
 			}
-			while(a[j]>L && a[j]>a[pivot]) {
+			while(j>L && a[j]>a[pivot]) {
 				j--;
 			}
 			if(i<j) {

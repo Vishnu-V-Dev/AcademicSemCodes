@@ -5,7 +5,7 @@ void eq(int item) {
 	if((rear+1)%size==front)
 		printf("Queue is full.");
 	else if(rear==-1) {
-		front=0; rear=0; a[rear]=item;
+		front=rear=0; a[rear]=item;
 	}
 	else {
 		rear=(rear+1)%size;

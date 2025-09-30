@@ -9,7 +9,7 @@
     mov cl,0ah ; Load 0Ah (decimal 10) into CL
     mov ah,00h ;clear AH so the number in AL is correctly treated as a 16-bit dividend
     div cl ;Divides AX by CL (10)
-    mov bl,ah ;Store remainder (units digit) in BL, because we?ll overwrite AH soon
+    mov bl,ah ;Store remainder (units digit) in BL, because we'll overwrite AH soon
     
     add al,30h ; convert 1 ? '1'
     mov dl,al
@@ -37,15 +37,15 @@ start:
     printn m1 ; Prints - "Enter the 1st no:"
     
     mov ah,01h ; DOS function to read a single character from the keyboard
-    int 21h ; wait for key input ? result in AL (ASCII)
+    int 21h ; wait for key input -> result in AL (ASCII)
     sub al,30h ; convert ASCII digit ? actual number
     mov bl,al ; store first number in BL
     
-    printn m2 ; ; Prints - "Enter the 2nd no:"
+    printn m2 ; Prints - "Enter the 2nd no:"
     
     mov ah,01h 
-    int 21h ; wait for input ? AL = ASCII digit
-    sub al,30h ; convert ASCII ? number
+    int 21h ; wait for input -> AL = ASCII digit
+    sub al,30h ; convert ASCII -> number
     add al,bl ; add 1st number (BL) to 2nd number (AL)
     
     printn r ; "Result is"

@@ -11,12 +11,12 @@
     div cl ;Divides AX by CL (10)
     mov bl,ah ;Store remainder (units digit) in BL, because we'll overwrite AH soon
     
-    add al,30h ; convert 1 ? '1'
+    add al,30h ; convert 1 -> '1'
     mov dl,al
     mov ah,02h
     int 21h ; print the character in DL
     
-    add bl,30h ; convert 2 ? '2'
+    add bl,30h ; convert 2 -> '2'
     mov dl,bl
     mov ah,02h
     int 21h ; print the character in DL

@@ -7,11 +7,11 @@
         ENDM
         
         PRINTN MACRO Q
-                MOV AL,Q ; load number into AL (eg.Q = 27 ? AL = 27)
+                MOV AL,Q ; load number into AL (eg.Q = 27 -> AL = 27)
                 MOV BL,0AH ; BL = 10 (for decimal division)
-                MOV AH,00H ; clear AH ? AX = number (AL) and 0 in AH(AX = 0027h)
+                MOV AH,00H ; clear AH -> AX = number (AL) and 0 in AH(AX = 0027h)
                 DIV BL ; AX ? 10 -> quotient in AL, remainder in AH(AL=2, AH=7)
-                MOV BL,AH ; remainder ? BL (BL = 7)
+                MOV BL,AH ; remainder -> BL (BL = 7)
                           ; Now AL = 2, BL = 7 
                 ADD AL,30H ; convert quotient to ASCII
                 MOV DL,AL

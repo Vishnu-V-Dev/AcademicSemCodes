@@ -10,7 +10,7 @@
                 MOV AL,Q ; load number into AL (eg.Q = 27 ? AL = 27)
                 MOV BL,0AH ; BL = 10 (for decimal division)
                 MOV AH,00H ; clear AH ? AX = number (AL) and 0 in AH(AX = 0027h)
-                DIV BL ; AX ? 10 ? quotient in AL, remainder in AH(AL=2, AH=7)
+                DIV BL ; AX ? 10 -> quotient in AL, remainder in AH(AL=2, AH=7)
                 MOV BL,AH ; remainder ? BL (BL = 7)
                           ; Now AL = 2, BL = 7 
                 ADD AL,30H ; convert quotient to ASCII
@@ -39,19 +39,19 @@ H:      MOV AX,@DATA
         MESSAGE CH1
         MOV AH,01H ; Reads a character from keyboard (ASCII)
         INT 21H
-        SUB AL,30H ; Subtract 30h ? real value = 7.
+        SUB AL,30H ; Subtract 30h -> real value = 7.
         MOV CH0,AL ; Store choice in CH0
         
         CMP CH0,05H ; Compare choice with 5
-        JE E ; If 5 ? Exit
+        JE E ; If 5 -> Exit
         CMP CH0,01H 
-        JE A ; If 1 ? Addition
+        JE A ; If 1 -> Addition
         CMP CH0,02H
-        JE S ; If 2 ? Subtraction
+        JE S ; If 2 -> Subtraction
         CMP CH0,03H
-        JE M ; If 3 ? Multiplication
+        JE M ; If 3 -> Multiplication
         CMP CH0,04H
-        JE D ; If 4 ? Division
+        JE D ; If 4 -> Division
         
 A:      MESSAGE MSG1
         MOV AH,01H
@@ -116,7 +116,7 @@ D:      MESSAGE MSG1
         
         MESSAGE MSG3
         XCHG AL,CL ; Swap AL and CL(DIV divides AX by an 8-bit register)
-        XOR AH,AH ; Clears AH ? ensures dividend = AX = numerator
+        XOR AH,AH ; Clears AH -> ensures dividend = AX = numerator
         DIV CL ; Divides AX by CL
         PRINTN AL ; uses macro to print quotient in decimal
         JMP H

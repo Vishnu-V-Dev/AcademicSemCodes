@@ -44,4 +44,33 @@ Query OK, 1 row affected (0.03 sec)
 
 [In Linux  Shell Termnal]:~$ sudo mysql -u root -p DB1 < backup01.sql --backup done
 
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| CompanyDB          |
+| DB1                |
+| ExampleDB          |
+| LabDB              |
+| SchoolDB           |
+| ShopDB             |
+| SmallJoinDB        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+11 rows in set (0.00 sec)
+
+mysql> use DB1;
+Database changed
+
+mysql> show tables;
++---------------+
+| Tables_in_DB1 |
++---------------+
+| Employee      |
++---------------+
+1 row in set (0.00 sec)
+
 --Backup of Multiple Databases

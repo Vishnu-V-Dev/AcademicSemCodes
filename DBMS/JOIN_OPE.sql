@@ -25,6 +25,94 @@ INSERT INTO employee VALUES
 (105, 'Eve', NULL, 50000);
 
 -- =====================================================
+-- 🔹 INNER JOIN Example
+-- Show employees with their department names
+-- =====================================================
+SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
+FROM employee e
+INNER JOIN department d ON e.dept_id = d.dept_id;
+
+-- ✅ Output:
+-- | emp_id | emp_name | dept_name | salary  |
+-- |--------|-----------|-----------|----------|
+-- | 101    | Alice     | IT        | 60000.00 |
+-- | 102    | Bob       | IT        | 55000.00 |
+-- | 103    | Charlie   | Finance   | 70000.00 |
+-- | 104    | David     | HR        | 40000.00 |
+
+
+-- =====================================================
+-- 🔹 LEFT JOIN Example
+-- Show all employees with department names (include employees with no dept)
+-- =====================================================
+SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
+FROM employee e
+LEFT JOIN department d ON e.dept_id = d.dept_id;
+
+-- ✅ Output:
+-- Includes Eve (dept_id = NULL)
+-- | emp_id | emp_name | dept_name | salary  |
+-- |--------|-----------|-----------|----------|
+-- | 101    | Alice     | IT        | 60000.00 |
+-- | 102    | Bob       | IT        | 55000.00 |
+-- | 103    | Charlie   | Finance   | 70000.00 |
+-- | 104    | David     | HR        | 40000.00 |
+-- | 105    | Eve       | NULL      | 50000.00 |
+
+
+-- =====================================================
+-- 🔹 RIGHT JOIN Example
+-- Show all departments even if they have no employees
+-- =====================================================
+SELECT e.emp_name, d.dept_name, d.location
+FROM employee e
+RIGHT JOIN department d ON e.dept_id = d.dept_id;
+
+-- ✅ Output:
+-- Includes Marketing (no employees)
+-- | emp_name | dept_name | location  |
+-- |-----------|-----------|-----------|
+-- | David     | HR        | Mumbai    |
+-- | Alice     | IT        | Bangalore |
+-- | Bob       | IT        | Bangalore |
+-- | Charlie   | Finance   | Chennai   |
+-- | NULL      | Marketing | Delhi     |
+
+
+-- =====================================================
+-- 🔹 NATURAL JOIN Example
+-- Join employee and department automatically on common column name (dept_id)
+-- =====================================================
+SELECT emp_id, emp_name, dept_name, salary
+FROM employee
+NATURAL JOIN department;
+
+-- ✅ Output:
+-- | emp_id | emp_name | dept_name | salary  |
+-- |--------|-----------|-----------|----------|
+-- | 101    | Alice     | IT        | 60000.00 |
+-- | 102    | Bob       | IT        | 55000.00 |
+-- | 103    | Charlie   | Finance   | 70000.00 |
+-- | 104    | David     | HR        | 40000.00 |
+
+-- NOTE:
+-- NATURAL JOIN automatically joins on same column names (dept_id)
+-- Avoid using NATURAL JOIN when columns share the same name accidentally.
+
+
+-- =====================================================
+-- 🔹 BONUS: FULL OUTER JOIN (simulated using UNION)
+-- =====================================================
+SELECT e.emp_name, d.dept_name
+FROM employee e
+LEFT JOIN department d ON e.dept_id = d.dept_id
+UNION
+SELECT e.emp_name, d.dept_name
+FROM employee e
+RIGHT JOIN department d ON e.dept_id = d.dept_id;
+
+
+-- =====================================================
 -- 1️⃣ INNER JOIN Example
 -- Employees with department info
 -- =====================================================

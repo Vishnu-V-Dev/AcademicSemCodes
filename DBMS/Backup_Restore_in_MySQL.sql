@@ -140,3 +140,60 @@ mysql> show databases;
 12 rows in set (0.00 sec)
 
 --Backup of All Databases available
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| CompanyDB          |
+| DB1                |
+| DB2                |
+| ExampleDB          |
+| LabDB              |
+| SchoolDB           |
+| ShopDB             |
+| SmallJoinDB        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)
+
+[In Linux  Shell Termnal]:~$ sudo mysqldump -u root -p --all-databases > all_db_backup.sql
+
+  --Drop any or all Database(s)
+[In Linux  Shell Termnal]:~$ sudo mysql -u root -p -e "DROP DATABASE CompanyDB; DROP DATABASE DB1; DROP DATABASE DB2; DROP DATABASE ExampleDB; DROP DATABASE SchoolDB; DROP DATABASE ShopDB;"
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| LabDB              |
+| SmallJoinDB        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+6 rows in set (0.00 sec)
+
+[In Linux  Shell Termnal]:~$ sudo mysql -u root -p < all_db_backup.sql
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| CompanyDB          |
+| DB1                |
+| DB2                |
+| ExampleDB          |
+| LabDB              |
+| SchoolDB           |
+| ShopDB             |
+| SmallJoinDB        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+12 rows in set (0.00 sec)

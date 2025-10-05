@@ -1,3 +1,4 @@
+--Backup of a Single Database
 mysql> show databases;
 +--------------------+
 | Database           |
@@ -43,3 +44,4 @@ Query OK, 1 row affected (0.03 sec)
 
 [In Linux  Shell Termnal]:~$ sudo mysql -u root -p DB1 < backup01.sql --backup done
 
+--Backup of Multiple Databases

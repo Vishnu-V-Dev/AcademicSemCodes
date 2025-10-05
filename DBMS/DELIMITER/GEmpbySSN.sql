@@ -37,6 +37,9 @@ mysql> select @s as Emp_Sal;
 +----------+
 1 row in set (0.00 sec)
 
+mysql> call GEmpbySSN(101,@s);
+Query OK, 1 row affected (0.00 sec)
+
 mysql> select @s as Emp_Sal;
 +----------+
 | Emp_Sal  |

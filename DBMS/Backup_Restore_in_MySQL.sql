@@ -18,6 +18,9 @@ mysql> show databases;
 
 [In Linux  Shell Termnal]:~$ sudo mysqldump -u root -p DB1 > backup01.sql
 
+mysql> drop database DB1;
+Query OK, 1 row affected (0.09 sec)
+
 mysql> show databases; --Dropped DB1
 +--------------------+
 | Database           |

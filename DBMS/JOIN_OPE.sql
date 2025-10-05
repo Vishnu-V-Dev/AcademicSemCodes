@@ -1,201 +1,82 @@
-CREATE TABLE department (
-    dept_id INT PRIMARY KEY,
-    dept_name VARCHAR(50),
-    location VARCHAR(50)
-);
+mysql> select * from employee;
++--------+----------+---------+
+| emp_id | emp_name | dept_id |
++--------+----------+---------+
+|    101 | Alice    |       2 |
+|    102 | Bob      |       2 |
+|    103 | Charlie  |       1 |
+|    104 | David    |    NULL |
++--------+----------+---------+
+4 rows in set (0.00 sec)
 
-CREATE TABLE employee (
-    emp_id INT PRIMARY KEY,
-    emp_name VARCHAR(50),
-    dept_id INT,
-    salary DECIMAL(10,2)
-);
+mysql> select * from department;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | HR        |
+|       2 | IT        |
++---------+-----------+
+2 rows in set (0.00 sec)
 
-INSERT INTO department VALUES
-(1, 'HR', 'Mumbai'),
-(2, 'IT', 'Bangalore'),
-(3, 'Finance', 'Chennai'),
-(4, 'Marketing', 'Delhi');
+mysql> -- INNER JOIN
+mysql> select e.emp_name,d.dept_name
+    -> from employee e
+    -> INNER JOIN department d ON e.dept_id = d.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Alice    | IT        |
+| Bob      | IT        |
+| Charlie  | HR        |
++----------+-----------+
+3 rows in set (0.00 sec)
 
-INSERT INTO employee VALUES
-(101, 'Alice', 2, 60000),
-(102, 'Bob', 2, 55000),
-(103, 'Charlie', 3, 70000),
-(104, 'David', 1, 40000),
-(105, 'Eve', NULL, 50000);
+mysql> -- LEFT JOIN
+mysql> select e.emp_name,d.dept_name
+    -> from employee e
+    -> LEFT JOIN department d ON e.dept_id = d.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Alice    | IT        |
+| Bob      | IT        |
+| Charlie  | HR        |
+| David    | NULL      |
++----------+-----------+
+4 rows in set (0.00 sec)
 
--- =====================================================
--- 🔹 INNER JOIN Example
--- Show employees with their department names
--- =====================================================
-SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
-FROM employee e
-INNER JOIN department d ON e.dept_id = d.dept_id;
+mysql> -- RIGHT JOIN
+mysql> select e.emp_name,d.dept_name
+    -> from employee e
+    -> RIGHT JOIN department d ON e.dept_id = d.dept_id;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Charlie  | HR        |
+| Bob      | IT        |
+| Alice    | IT        |
++----------+-----------+
+3 rows in set (0.00 sec)
 
--- ✅ Output:
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|-----------|-----------|----------|
--- | 101    | Alice     | IT        | 60000.00 |
--- | 102    | Bob       | IT        | 55000.00 |
--- | 103    | Charlie   | Finance   | 70000.00 |
--- | 104    | David     | HR        | 40000.00 |
+mysql> -- NATURAL JOIN
+mysql> select emp_name,dept_name
+    -> from employee
+    -> NATURAL JOIN department;
++----------+-----------+
+| emp_name | dept_name |
++----------+-----------+
+| Alice    | IT        |
+| Bob      | IT        |
+| Charlie  | HR        |
++----------+-----------+
+3 rows in set (0.00 sec)
 
+1️⃣ INNER JOIN
+-> You explicitly specify the column(s) to join on using ON.
+-> Only returns rows where the join condition matches in both tables.
+-> You have full control over which columns are used for the join.
 
--- =====================================================
--- 🔹 LEFT JOIN Example
--- Show all employees with department names (include employees with no dept)
--- =====================================================
-SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
-FROM employee e
-LEFT JOIN department d ON e.dept_id = d.dept_id;
-
--- ✅ Output:
--- Includes Eve (dept_id = NULL)
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|-----------|-----------|----------|
--- | 101    | Alice     | IT        | 60000.00 |
--- | 102    | Bob       | IT        | 55000.00 |
--- | 103    | Charlie   | Finance   | 70000.00 |
--- | 104    | David     | HR        | 40000.00 |
--- | 105    | Eve       | NULL      | 50000.00 |
-
-
--- =====================================================
--- 🔹 RIGHT JOIN Example
--- Show all departments even if they have no employees
--- =====================================================
-SELECT e.emp_name, d.dept_name, d.location
-FROM employee e
-RIGHT JOIN department d ON e.dept_id = d.dept_id;
-
--- ✅ Output:
--- Includes Marketing (no employees)
--- | emp_name | dept_name | location  |
--- |-----------|-----------|-----------|
--- | David     | HR        | Mumbai    |
--- | Alice     | IT        | Bangalore |
--- | Bob       | IT        | Bangalore |
--- | Charlie   | Finance   | Chennai   |
--- | NULL      | Marketing | Delhi     |
-
-
--- =====================================================
--- 🔹 NATURAL JOIN Example
--- Join employee and department automatically on common column name (dept_id)
--- =====================================================
-SELECT emp_id, emp_name, dept_name, salary
-FROM employee
-NATURAL JOIN department;
-
--- ✅ Output:
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|-----------|-----------|----------|
--- | 101    | Alice     | IT        | 60000.00 |
--- | 102    | Bob       | IT        | 55000.00 |
--- | 103    | Charlie   | Finance   | 70000.00 |
--- | 104    | David     | HR        | 40000.00 |
-
--- NOTE:
--- NATURAL JOIN automatically joins on same column names (dept_id)
--- Avoid using NATURAL JOIN when columns share the same name accidentally.
-
-
--- =====================================================
--- 🔹 BONUS: FULL OUTER JOIN (simulated using UNION)
--- =====================================================
-SELECT e.emp_name, d.dept_name
-FROM employee e
-LEFT JOIN department d ON e.dept_id = d.dept_id
-UNION
-SELECT e.emp_name, d.dept_name
-FROM employee e
-RIGHT JOIN department d ON e.dept_id = d.dept_id;
-
-
--- =====================================================
--- 1️⃣ INNER JOIN Example
--- Employees with department info
--- =====================================================
-SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
-FROM employee e
-INNER JOIN department d ON e.dept_id = d.dept_id;
-
--- Output:
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|----------|-----------|---------|
--- | 101    | Alice    | IT        | 60000.00 |
--- | 102    | Bob      | IT        | 55000.00 |
--- | 103    | Charlie  | Finance   | 70000.00 |
--- | 104    | David    | HR        | 40000.00 |
-
--- =====================================================
--- 2️⃣ LEFT OUTER JOIN Example
--- All employees with department info (NULL if no dept)
--- =====================================================
-SELECT e.emp_id, e.emp_name, d.dept_name, e.salary
-FROM employee e
-LEFT JOIN department d ON e.dept_id = d.dept_id;
-
--- Output:
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|----------|-----------|---------|
--- | 101    | Alice    | IT        | 60000.00 |
--- | 102    | Bob      | IT        | 55000.00 |
--- | 103    | Charlie  | Finance   | 70000.00 |
--- | 104    | David    | HR        | 40000.00 |
--- | 105    | Eve      | NULL      | 50000.00 |
-
--- =====================================================
--- 3️⃣ RIGHT OUTER JOIN Example
--- All departments with employee info (NULL if no employees)
--- =====================================================
-SELECT e.emp_name, d.dept_name, d.location
-FROM employee e
-RIGHT JOIN department d ON e.dept_id = d.dept_id;
-
--- Output:
--- | emp_name | dept_name  | location  |
--- |----------|------------|-----------|
--- | David    | HR         | Mumbai    |
--- | Alice    | IT         | Bangalore |
--- | Bob      | IT         | Bangalore |
--- | Charlie  | Finance    | Chennai   |
--- | NULL     | Marketing  | Delhi     |
-
--- =====================================================
--- 4️⃣ FULL OUTER JOIN Example (simulated with UNION)
--- All employees and all departments combined
--- =====================================================
-SELECT e.emp_name, d.dept_name
-FROM employee e
-LEFT JOIN department d ON e.dept_id = d.dept_id
-UNION
-SELECT e.emp_name, d.dept_name
-FROM employee e
-RIGHT JOIN department d ON e.dept_id = d.dept_id;
-
--- Output:
--- | emp_name | dept_name  |
--- |----------|------------|
--- | David    | HR         |
--- | Alice    | IT         |
--- | Bob      | IT         |
--- | Charlie  | Finance    |
--- | Eve      | NULL       |
--- | NULL     | Marketing  |
-
--- =====================================================
--- 5️⃣ NATURAL JOIN Example
--- Automatically joins on dept_id
--- =====================================================
-SELECT emp_id, emp_name, dept_name, salary
-FROM employee
-NATURAL JOIN department;
-
--- Output:
--- | emp_id | emp_name | dept_name | salary  |
--- |--------|----------|-----------|---------|
--- | 101    | Alice    | IT        | 60000.00 |
--- | 102    | Bob      | IT        | 55000.00 |
--- | 103    | Charlie  | Finance   | 70000.00 |
--- | 104    | David    | HR        | 40000.00 |
+2️⃣ NATURAL JOIN
+-> Automatically joins tables on all columns with the same name in both tables.
+-> You do not specify the join column.
+-> Can be risky if there are multiple columns with the same name that you didn’t intend to join.

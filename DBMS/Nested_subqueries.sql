@@ -1,127 +1,99 @@
--- =====================================================
--- Step 1: Create Tables
--- =====================================================
-CREATE TABLE department (
-    dept_id INT PRIMARY KEY,
-    dept_name VARCHAR(50)
-);
+mysql> select * from employee;
++--------+----------+---------+----------+------+
+| emp_id | emp_name | dept_id | salary   | age  |
++--------+----------+---------+----------+------+
+|    101 | Alice    |       2 | 60000.00 |   28 |
+|    102 | Bob      |       2 | 55000.00 |   25 |
+|    103 | Charlie  |       3 | 70000.00 |   30 |
+|    104 | David    |       1 | 40000.00 |   26 |
+|    105 | Eve      |       3 | 72000.00 |   32 |
++--------+----------+---------+----------+------+
+5 rows in set (0.00 sec)
 
-CREATE TABLE employee (
-    emp_id INT PRIMARY KEY,
-    emp_name VARCHAR(50),
-    dept_id INT,
-    salary DECIMAL(10,2),
-    age INT
-);
+mysql> select * from department;
++---------+-----------+
+| dept_id | dept_name |
++---------+-----------+
+|       1 | HR        |
+|       2 | IT        |
+|       3 | Finance   |
++---------+-----------+
+3 rows in set (0.00 sec)
 
-CREATE TABLE project (
-    project_id INT PRIMARY KEY,
-    project_name VARCHAR(50),
-    dept_id INT,
-    budget DECIMAL(10,2)
-);
+-- 1️⃣ Nested Subquery with IN
+-- Employees working in departments that are in IT or Finance
+mysql> select emp_name,dept_id from employee
+    -> where dept_id IN ( SELECT dept_id
+    -> from department where dept_name IN('IT','Finance') );
++----------+---------+
+| emp_name | dept_id |
++----------+---------+
+| Alice    |       2 |
+| Bob      |       2 |
+| Charlie  |       3 |
+| Eve      |       3 |
++----------+---------+
+4 rows in set (0.00 sec)
 
--- =====================================================
--- Step 2: Insert Data
--- =====================================================
-INSERT INTO department VALUES
-(1, 'HR'),
-(2, 'IT'),
-(3, 'Finance'),
-(4, 'Marketing');
+-- 2️⃣ Nested Subquery with NOT IN
+-- Employees NOT in departments with dept_id 3
+mysql> select emp_name,dept_id from employee
+    -> where dept_id NOT IN ( select dept_id
+    -> from department where dept_id = 3 );
++----------+---------+
+| emp_name | dept_id |
++----------+---------+
+| Alice    |       2 |
+| Bob      |       2 |
+| David    |       1 |
++----------+---------+
+3 rows in set (0.00 sec)
 
-INSERT INTO employee VALUES
-(101, 'Alice', 2, 60000, 28),
-(102, 'Bob', 2, 55000, 25),
-(103, 'Charlie', 3, 70000, 30),
-(104, 'David', 1, 40000, 26),
-(105, 'Eve', 3, 72000, 32),
-(106, 'Frank', 1, 38000, 24);
+-- 3️⃣ Nested Subquery with Aggregate Function (MAX)
+-- Employees having the highest salary
+mysql> select emp_name,salary from employee
+    -> where salary = ( SELECT MAX(salary) from employee );
++----------+----------+
+| emp_name | salary   |
++----------+----------+
+| Eve      | 72000.00 |
++----------+----------+
+1 row in set (0.00 sec)
 
-INSERT INTO project VALUES
-(1, 'Website Redesign', 2, 200000),
-(2, 'Recruitment Portal', 1, 120000),
-(3, 'Audit System', 3, 150000),
-(4, 'Marketing Campaign', 4, 100000);
+-- Employees having the more than AVG salary
+mysql> select emp_name,salary from employee
+    -> where salary > ( SELECT AVG(salary) from employee );
++----------+----------+
+| emp_name | salary   |
++----------+----------+
+| Alice    | 60000.00 |
+| Charlie  | 70000.00 |
+| Eve      | 72000.00 |
++----------+----------+
+3 rows in set (0.00 sec)
 
--- =====================================================
--- Step 3: Show Full Tables
--- =====================================================
-SELECT * FROM department;
+-- 4️⃣ Nested Subquery with Multiple Conditions
+-- Employees in IT or Finance with salary > 60000
+mysql> select emp_id,dept_id,salary from employee
+    -> where dept_id IN ( select dept_id from department
+    -> where dept_name IN ('IT','Finance')
+    -> AND salary > 60000);
++--------+---------+----------+
+| emp_id | dept_id | salary   |
++--------+---------+----------+
+|    103 |       3 | 70000.00 |
+|    105 |       3 | 72000.00 |
++--------+---------+----------+
+2 rows in set (0.01 sec)
 
--- Output:
--- | dept_id | dept_name  |
--- |---------|------------|
--- | 1       | HR         |
--- | 2       | IT         |
--- | 3       | Finance    |
--- | 4       | Marketing  |
-
-SELECT * FROM employee;
-
--- Output:
--- | emp_id | emp_name | dept_id | salary   | age |
--- |--------|----------|---------|----------|-----|
--- | 101    | Alice    | 2       | 60000.00 | 28  |
--- | 102    | Bob      | 2       | 55000.00 | 25  |
--- | 103    | Charlie  | 3       | 70000.00 | 30  |
--- | 104    | David    | 1       | 40000.00 | 26  |
--- | 105    | Eve      | 3       | 72000.00 | 32  |
--- | 106    | Frank    | 1       | 38000.00 | 24  |
-
-SELECT * FROM project;
-
--- Output:
--- | project_id | project_name       | dept_id | budget     |
--- |------------|------------------|---------|-----------|
--- | 1          | Website Redesign  | 2       | 200000.00 |
--- | 2          | Recruitment Portal| 1       | 120000.00 |
--- | 3          | Audit System      | 3       | 150000.00 |
--- | 4          | Marketing Campaign| 4       | 100000.00 |
-
--- =====================================================
--- 1️⃣ Subquery with IN
-SELECT emp_name, dept_id
-FROM employee
-WHERE dept_id IN (
-    SELECT dept_id FROM project
-);
-
--- 2️⃣ Subquery with NOT IN
-SELECT emp_name, dept_id
-FROM employee
-WHERE dept_id NOT IN (
-    SELECT dept_id FROM project
-);
-
--- 3️⃣ Subquery with Aggregate Function (MAX)
-SELECT emp_name, salary
-FROM employee
-WHERE salary = (
-    SELECT MAX(salary) FROM employee
-);
-
--- 4️⃣ Subquery with Aggregate Function (AVG)
-SELECT emp_name, dept_id, salary
-FROM employee e
-WHERE salary > (
-    SELECT AVG(salary)
-    FROM employee
-    WHERE dept_id = e.dept_id
-);
-
--- 5️⃣ Subquery with Multiple Conditions
-SELECT emp_name, dept_id, salary
-FROM employee
-WHERE dept_id IN (2,3) AND salary > 60000;
-
--- 6️⃣ Subquery with NOT IN and Age Condition
-SELECT emp_name, dept_id, salary
-FROM employee
-WHERE dept_id NOT IN (
-    SELECT dept_id FROM project WHERE budget > 150000
-);
-
--- =====================================================
--- ✅ END OF SUBQUERY PRACTICAL
--- =====================================================
+-- Employees in IT with salary > AVG also show name of the employee
+mysql> select emp_name,emp_id,dept_id,salary from employee
+    -> where dept_id IN ( select dept_id from department
+    -> where dept_name IN ('IT')
+    -> AND salary > ( SELECT AVG(salary) from employee ) );
++----------+--------+---------+----------+
+| emp_name | emp_id | dept_id | salary   |
++----------+--------+---------+----------+
+| Alice    |    101 |       2 | 60000.00 |
++----------+--------+---------+----------+
+1 row in set (0.00 sec)

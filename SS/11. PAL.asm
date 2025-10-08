@@ -33,7 +33,7 @@ read_loop:
     
 terminate_input:
         mov byte ptr[si],'$' ; Stores $ at the end of the string -> marks string end
-        mov si,input ; SI → points to 'L' (first letter)
+        mov si,input ; SI → points to first letter
         mov di,cx ; now CX = total number of characters typed
         dec di ; Arrays (like input) start at offset 0, if cx=5 then index is 4.
         

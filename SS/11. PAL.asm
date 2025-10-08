@@ -52,7 +52,7 @@ check_loop:
       
 is_palindrome
     lea dx,msg1
-    jmp print_result
+    jmp print_result ; jmp to terminate if its palindrome
     
 not_palindrome
     lead dx,msg2

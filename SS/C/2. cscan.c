@@ -99,3 +99,23 @@ Enter total disk size
 Enter the head movement direction for high 1 and for low 0
 1
 Total head movement is 382
+
+
+Enter the no of Requests
+8
+Enter the Requests Sequence
+98
+183
+37
+122
+14
+124
+65
+67
+Enter the initial head position
+53
+Enter total disk size
+200
+Enter the head movement direction for high 1 and for low 0
+0
+Total head movement is 386

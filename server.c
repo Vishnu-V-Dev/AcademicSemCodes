@@ -1,42 +1,51 @@
-#include <stdio.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<arpa/inet.h>
+#include<netinet/in.h>
 
 int main()
 {
-    int wS;
-    char buf[1024];
-    struct sockaddr_in sA;
-    struct sockaddr_storage sS;
-    socklen_t aS;
+    int s;                      // server socket
+    char b[1024];               // buffer to store message
+    struct sockaddr_in a;       // server address
+    struct sockaddr_storage c;  // client address (generic)
+    socklen_t l;                // length of address
 
-    // Create socket
-    wS = socket(AF_INET, SOCK_DGRAM, 0);
+    // Create UDP socket
+    s = socket(AF_INET, SOCK_DGRAM, 0);
 
-    // Configure settings
-    sA.sin_family = AF_INET;
-    sA.sin_port = htons(7891);
-    sA.sin_addr.s_addr = inet_addr("127.0.0.1");
-    memset(sA.sin_zero, '\0', sizeof sA.sin_zero);
+    // Configure server address
+    a.sin_family = AF_INET;
+    a.sin_port = htons(7891);
+    a.sin_addr.s_addr = inet_addr("127.0.0.1");
+    memset(a.sin_zero, '\0', sizeof(a.sin_zero));
 
-    // Bind socket
-    bind(wS, (struct sockaddr *)&sA, sizeof(sA));
+    // Bind socket to IP and port
+    bind(s, (struct sockaddr *)&a, sizeof(a));
 
-    printf("UDP Server listening...\n");
+    printf("Server listening...\n");
 
-    // Receive message
-    aS = sizeof sS;
-    recvfrom(wS, buf, 1024, 0,
-             (struct sockaddr *)&sS, &aS);
+    // Set size of client address
+    l = sizeof(c);
 
-    buf[1023] = '\0';
+    // Receive message from client
+    recvfrom(s, b, sizeof(b), 0, (struct sockaddr *)&c, &l);
 
-    printf("Message: %s\n", buf);
+    // Ensure string is null-terminated
+    b[1023] = '\0';
 
-    // Print client IP
-    struct sockaddr_in *cA = (struct sockaddr_in *)&sS;
-    printf("Client IP: %s\n", inet_ntoa(cA->sin_addr));
+    // Print received message
+    printf("Message from client: %s\n", b);
+
+    // Get client IP address
+    struct sockaddr_in *client = (struct sockaddr_in *)&c;
+    printf("Client IP: %s\n", inet_ntoa(client->sin_addr));
+
+    // Close socket
+    close(s);
 
     return 0;
 }

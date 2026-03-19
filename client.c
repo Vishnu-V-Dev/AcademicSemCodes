@@ -8,33 +8,37 @@
 
 int main()
 {
-    int s;                    // client socket
-    char b[1024];             // buffer to send
-    struct sockaddr_in a;     // server address
-    socklen_t l;              // address length
+	int cS;  // client socket
+	char b[1024];  // buffer
+	struct sockaddr_in sA;  // server address
+	socklen_t aS;  // address size
 
-    // Create UDP socket
-    s = socket(AF_INET, SOCK_DGRAM, 0);
+	// create socket
+	cS = socket(AF_INET,SOCK_DGRAM,0);
 
-    // Configure server details
-    a.sin_family = AF_INET;
-    a.sin_port = htons(7891);
-    a.sin_addr.s_addr = inet_addr("127.0.0.1");
-    memset(a.sin_zero, '\0', sizeof(a.sin_zero));
+	// set family
+	sA.sin_family = AF_INET;
 
-    // Set address size
-    l = sizeof(a);
+	// set port
+	sA.sin_port = htons(7891);
 
-    // Message to send
-    strcpy(b, "Hello from client");
+	// set IP
+	sA.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    // Send message to server
-    sendto(s, b, strlen(b) + 1, 0, (struct sockaddr *)&a, l);
+	// clear padding
+	memset(sA.sin_zero,'\0',sizeof(sA.sin_zero));
 
-    printf("Message sent to server\n");
+	// set address size
+	aS = sizeof(sA);
 
-    // Close socket
-    close(s);
+	// copy IP into buffer
+	strcpy(b,inet_ntoa(sA.sin_addr));
 
-    return 0;
+	// send data to server
+	sendto(cS,b,sizeof(b),0,(struct sockaddr *)&sA,aS);
+
+	// print message
+	printf("ip address of client send to server\n");
+
+	return 0;
 }

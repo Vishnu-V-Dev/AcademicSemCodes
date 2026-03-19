@@ -1,34 +1,40 @@
-#include <stdio.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+#include<sys/socket.h>
+#include<arpa/inet.h>
+#include<netinet/in.h>
 
 int main()
 {
-    int cS;
-    char buf[1024];
-    struct sockaddr_in sA;
-    socklen_t aS;
+    int s;                    // client socket
+    char b[1024];             // buffer to send
+    struct sockaddr_in a;     // server address
+    socklen_t l;              // address length
 
-    // Create socket
-    cS = socket(AF_INET, SOCK_DGRAM, 0);
+    // Create UDP socket
+    s = socket(AF_INET, SOCK_DGRAM, 0);
 
-    // Configure server address
-    sA.sin_family = AF_INET;
-    sA.sin_port = htons(7891);
-    sA.sin_addr.s_addr = inet_addr("127.0.0.1");
-    memset(sA.sin_zero, '\0', sizeof sA.sin_zero);
+    // Configure server details
+    a.sin_family = AF_INET;
+    a.sin_port = htons(7891);
+    a.sin_addr.s_addr = inet_addr("127.0.0.1");
+    memset(a.sin_zero, '\0', sizeof(a.sin_zero));
 
-    aS = sizeof(sA);
+    // Set address size
+    l = sizeof(a);
 
     // Message to send
-    strcpy(buf, "Hello from client");
+    strcpy(b, "Hello from client");
 
-    // Send message
-    sendto(cS, buf, strlen(buf) + 1, 0,
-           (struct sockaddr *)&sA, aS);
+    // Send message to server
+    sendto(s, b, strlen(b) + 1, 0, (struct sockaddr *)&a, l);
 
     printf("Message sent to server\n");
+
+    // Close socket
+    close(s);
 
     return 0;
 }

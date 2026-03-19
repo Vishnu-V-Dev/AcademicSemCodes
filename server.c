@@ -8,44 +8,44 @@
 
 int main()
 {
-    int s;                      // server socket
-    char b[1024];               // buffer to store message
-    struct sockaddr_in a;       // server address
-    struct sockaddr_storage c;  // client address (generic)
-    socklen_t l;                // length of address
+	int wS,nS;  // sockets
+	char b[1024];  // buffer
+	struct sockaddr_in sA;  // server address
+	struct sockaddr_storage sS;  // client address
+	socklen_t aS;  // address size
 
-    // Create UDP socket
-    s = socket(AF_INET, SOCK_DGRAM, 0);
+	// create socket
+	wS = socket(AF_INET,SOCK_DGRAM,0);
 
-    // Configure server address
-    a.sin_family = AF_INET;
-    a.sin_port = htons(7891);
-    a.sin_addr.s_addr = inet_addr("127.0.0.1");
-    memset(a.sin_zero, '\0', sizeof(a.sin_zero));
+	// set family
+	sA.sin_family = AF_INET;
 
-    // Bind socket to IP and port
-    bind(s, (struct sockaddr *)&a, sizeof(a));
+	// set port
+	sA.sin_port = htons(7891);
 
-    printf("Server listening...\n");
+	// set IP
+	sA.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    // Set size of client address
-    l = sizeof(c);
+	// clear padding
+	memset(sA.sin_zero,'\0',sizeof(sA.sin_zero));
 
-    // Receive message from client
-    recvfrom(s, b, sizeof(b), 0, (struct sockaddr *)&c, &l);
+	// bind socket
+	bind(wS,(struct sockaddr *)&sA,sizeof(sA));
 
-    // Ensure string is null-terminated
-    b[1023] = '\0';
+	// check listen (not needed for UDP but kept as-is)
+	if(listen(wS,5)<0)
+		printf("listning\n");
+	else
+		printf("Error\n");
 
-    // Print received message
-    printf("Message from client: %s\n", b);
+	// set size
+	aS = sizeof(sS);
 
-    // Get client IP address
-    struct sockaddr_in *client = (struct sockaddr_in *)&c;
-    printf("Client IP: %s\n", inet_ntoa(client->sin_addr));
+	// receive data
+	recvfrom(wS,b,1024,0,(struct sockaddr *)&sS,&aS);
 
-    // Close socket
-    close(s);
+	// print received data
+	printf("ipaddress of client is %s\n", b);
 
-    return 0;
+	return 0;
 }

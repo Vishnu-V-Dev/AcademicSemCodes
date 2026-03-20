@@ -27,12 +27,12 @@ int main()
 	printf("Enter the word to be searched: ");
 	scanf("%s",b);
 	
-	send(cS,b,sizeof(b),0);
+	send(cS,b,1024,0);
 	
-	recv(cS,b,sizeof(b),0);
+	recv(cS,b,1024,0);
 	printf("Meaning = %s\n",b);
 	
-	recv(cS,b,sizeof(b),0);
+	recv(cS,b,1024,0);
 	printf("Antonym = %s\n",b);
 	close(cS);
 	

@@ -7,12 +7,12 @@
 #include<netinet/in.h>
 int main()
 {
-	int cS;
+	int wS;
 	char b[1024];
 	struct sockaddr_in sA;
 	socklen_t aS;
 	
-	cS = socket(AF_INET, SOCK_STREAM,0);
+	wS = socket(AF_INET, SOCK_STREAM,0);
 	
 	sA.sin_family = AF_INET;
 	sA.sin_port = htons(7891);
@@ -22,19 +22,19 @@ int main()
 	
 	aS = sizeof(sA);
 	
-	connect(cS,(struct sockaddr *)&sA,aS);
+	connect(wS,(struct sockaddr *)&sA,aS);
 	
 	printf("Enter the word to be searched: ");
 	scanf("%s",b);
 	
-	send(cS,b,1024,0);
+	send(wS,b,1024,0);
 	
-	recv(cS,b,1024,0);
+	recv(wS,b,1024,0);
 	printf("Meaning = %s\n",b);
 	
-	recv(cS,b,1024,0);
+	recv(wS,b,1024,0);
 	printf("Antonym = %s\n",b);
-	close(cS);
+	close(wS);
 	
 	return 0;
 }

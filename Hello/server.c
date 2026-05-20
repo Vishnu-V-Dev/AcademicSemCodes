@@ -13,13 +13,13 @@ int main()
     wS = socket(AF_INET, SOCK_DGRAM, 0);
 
     sA.sin_family = AF_INET;
-    a.sin_port = htons(7891);
-    a.sin_addr.s_addr = inet_addr("127.0.0.1");
+    sA.sin_port = htons(7891);
+    sA.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    bind(s, (struct sockaddr *)&a, sizeof(a));
+    bind(wS, (struct sockaddr *)&sA, sizeof(sA));
 
-    l = sizeof(c);
-    recvfrom(s, b, sizeof(b), 0, (struct sockaddr *)&c, &l);
+    aS = sizeof(sA);
+    recvfrom(wS, b, sizeof(b), 0, (struct sockaddr *)&sA, &aS);
 
     printf("Message: %s\n", b);
 

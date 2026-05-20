@@ -8,16 +8,16 @@
 
 int main() {
 	int wS;
-	struct sockaddr_in a;
+	struct sockaddr_in sA;
 	int n1,n2,sum;
 	
 	wS = socket(AF_INET,SOCK_STREAM,0);
 	
-	a.sin_family = AF_INET;
-	a.sin_port = htons(7891);
-	a.sin_addr.s_addr = inet_addr("127.0.0.1");
+	sA.sin_family = AF_INET;
+	sA.sin_port = htons(7891);
+	sA.sin_addr.s_addr = inet_addr("127.0.0.1");
 	
-	connect(wS,(struct sockaddr *)&a,sizeof(a));
+	connect(wS,(struct sockaddr *)&sA,sizeof(sA));
 	
 	printf("Enter first number: ");
     scanf("%d", &n1);

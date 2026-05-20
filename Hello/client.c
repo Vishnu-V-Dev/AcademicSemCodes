@@ -5,22 +5,22 @@
 
 int main()
 {
-    int s;
+    int wS;
     char b[1024];
-    struct sockaddr_in a;
-    socklen_t l;
+    struct sockaddr_in sA;
+    socklen_t aS;
 
-    s = socket(AF_INET, SOCK_DGRAM, 0);
+    wS = socket(AF_INET, SOCK_DGRAM, 0);
 
-    a.sin_family = AF_INET;
-    a.sin_port = htons(7891);
-    a.sin_addr.s_addr = inet_addr("127.0.0.1");
+    sA.sin_family = AF_INET;
+    sA.sin_port = htons(7891);
+    sA.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    l = sizeof(a);
+    aS = sizeof(sA);
 
     strcpy(b, "Hello");
 
-    sendto(s, b, strlen(b), 0, (struct sockaddr *)&a, l);
+    sendto(wS, b, strlen(b), 0, (struct sockaddr *)&sA, aS);
 
     return 0;
 }

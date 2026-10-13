@@ -9,7 +9,7 @@
 
 %%
 
-input: expr '\n' { printf("Result = %d\n", $1); };
+input: | input expr '\n' { printf("Result = %d\n", $2); };
 
 expr:	expr '+' expr { $$ = $1 + $3; }
 	|	expr '-' expr { $$ = $1 - $3; }

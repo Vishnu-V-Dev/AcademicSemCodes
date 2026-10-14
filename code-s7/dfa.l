@@ -5,30 +5,29 @@
 %s A B
 
 %%
+<INITIAL>1 { BEGIN INITIAL; }
+<INITIAL>0 { BEGIN A; }
+<INITIAL>[^01\n] { BEGIN B; }
+<INITIAL>\n { BEGIN INITIAL; printf("Accepted\n"); }
 
-<INITIAL>[1]		;
-<INITIAL>[0]		{ BEGIN A; }
-<INITIAL>[^01\n]	{ BEGIN  B; }
-<INITIAL>\n			{ printf("Accepted\n"); BEGIN INITIAL; }
+<A>1 { BEGIN  A;}
+<A>0 { BEGIN INITIAL; }
+<A>[^01\n] { BEGIN B; }
+<A>\n { BEGIN INITIAL; printf("Not Accepted\n"); }
 
-<A>[1]		;
-<A>[0]		{ BEGIN INITIAL; }
-<A>[^01\n]	{ BEGIN B; }
-<A>\n		{ printf("Not Accepted\n"); BEGIN INITIAL; }
-
-<B>[^\n]	;
-<B>\n		{ printf("Invalid input\n"); BEGIN INITIAL; }
+<B>0 { BEGIN B; }
+<B>1 { BEGIN B; }
+<B>[^01\n] { BEGIN B; }
+<B>\n { BEGIN INITIAL; printf("Invalid\n"); }
 
 %%
 
-int main(void) {
-	printf("Enter a binary string: \n");
-	BEGIN INITIAL;
+int main() {
+	printf("Enter a binary string: ");
 	yylex();
 	return 0;
 }
 
-int yywrap(void) {
+int yywrap() {
 	return 1;
 }
-

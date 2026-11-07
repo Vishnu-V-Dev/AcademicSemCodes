@@ -6,6 +6,7 @@ int c = 0;
 %%
 
 [a-zA-Z0-9]+ { c += yyleng; }
+. { c++; }
 \n { return 0; }
 
 %%

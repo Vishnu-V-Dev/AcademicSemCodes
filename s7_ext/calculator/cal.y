@@ -23,7 +23,7 @@ E: E'+'E { $$ = $1 + $3; }
   printf("Modulo by Zero\n");
   YYABORT;
   }
-  $$ = $1 / $3; }
+  $$ = $1 % $3; }
   |'-'E %prec UMINUS { $$ = -$2; }
   |'('E')' { $$ = $2; }
   |NUM { $$ = $1; }

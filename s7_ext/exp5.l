@@ -1,24 +1,21 @@
 %{
 #include <stdio.h>
-int c = 0;
+int l = 0;
 %}
 
 %%
 
-[a-zA-Z0-9]+ { c += yyleng; }
-. { c++; }
-\n { return 0; }
+. { l++; }
+\n { printf("Length of the string: %d\n", l); l=0; }
 
 %%
 
 int main() {
-	printf("Enter the String: ");
+	printf("Enter a string: ");
 	yylex();
-	printf("Length of the string: %d\n", c);
 	return 0;
 }
 
 int yywrap() {
 	return 1;
 }
-

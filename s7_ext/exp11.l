@@ -19,12 +19,12 @@
 <OE>0 { BEGIN INITIAL; }
 <OE>1 { BEGIN OO; }
 <OE>[^01\n] { BEGIN B; }
-<OE>\n { BEGIN INITIAL; printf("Not Accepted\n"); } /* change to Accepted for odd 0s and even 0s */
+<OE>\n { BEGIN INITIAL; printf("Not Accepted\n"); } /* change to Accepted for odd 0s and even 1s */
 
 <OO>0 { BEGIN EO; }
 <OO>1 { BEGIN OE; }
 <OO>[^01\n] { BEGIN B; }
-<OO>\n { BEGIN INITIAL; printf("Accepted\n"); } /* change to Accepted for odd 0s and odd 0s */
+<OO>\n { BEGIN INITIAL; printf("Accepted\n"); } /* change to Accepted for odd 0s and 1s */
 
 
 <B>0 { BEGIN B; }
